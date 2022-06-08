@@ -34,8 +34,7 @@ function concatenateStrings(str1, str2) {
  *   ''      => 0
  */
 function getStringLength(str) {
-  const resualt = str.length;
-  return resualt;
+  return str.length;
   // throw new Error('Not implemented')
 }
 
@@ -68,9 +67,9 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
 function extractNameFromTemplate(string) {
-  const endChar = string.indexOf('!');
-  const resualt = string.substring(6, endChar);
-  return resualt.trim();
+  // const endChar = string.indexOf('!');
+  // return string.substring(6, endChar).trim();
+  return string.split(',')[1].replace('!', '').trim();
   // throw new Error('Not implemented')
 }
 
@@ -85,7 +84,7 @@ function extractNameFromTemplate(string) {
  *   'cat'       => 'c'
  */
 function getFirstChar(string) {
-  return string.charAt(0);
+  return string[0];
   // throw new Error('Not implemented')
 }
 
@@ -134,8 +133,8 @@ function repeatString(str, times) {
  *   'ABABAB','BA' => 'ABAB'
  */
 function removeFirstOccurrences(string, substr) {
-  const resualt = string.replace(substr, '');
-  return resualt;
+  const result = string.replace(substr, '');
+  return result;
   // throw new Error('Not implemented')
 }
 
@@ -225,14 +224,15 @@ function getRectangleString(width, height) {
   const downLeftAngle = '└';
   const space = ' ';
   const cornersInOneLine = 2;
+  const borderAmountInCenter = 2;
 
   const centerUpDownLine = rectangleHorizEl.repeat(width - cornersInOneLine);
   const centerSpaces = space.repeat(width - cornersInOneLine);
 
   str = `${upLeftAngle}${centerUpDownLine}${upRightAngle}\n`;
 
-  if (height > cornersInOneLine) {
-    for (let i = 0; i < height - cornersInOneLine; i += 1) {
+  if (height > borderAmountInCenter) {
+    for (let i = 0; i < height - borderAmountInCenter; i += 1) {
       str += `${rectangleVerticEl}${centerSpaces}${rectangleVerticEl}\n`;
     }
   }
@@ -264,11 +264,6 @@ function encodeToRot13(str) {
 
   let encoded = '';
   for (let i = 0; i < str.length; i += 1) {
-    const re = '/[a - zA - Z]/';
-    if (str[i].match(re)) {
-      encoded += str[i];
-      break;
-    }
     const index = alf.indexOf(str[i]);
     encoded += ROT13cipher.charAt(index);
   }
@@ -291,8 +286,7 @@ function encodeToRot13(str) {
  *   isString(new String('test')) => true
  */
 function isString(value) {
-  const resualt = typeof value === 'string' || value instanceof String;
-  return resualt;
+  return typeof value === 'string' || value instanceof String;
 }
 
 /**
@@ -322,6 +316,7 @@ function isString(value) {
 function getCardId(card) {
   let currentCardNumber;
   let currentCardSuit;
+
   if (card.length === 3) {
     currentCardNumber = card.substring(0, 2);
     currentCardSuit = card.charAt(2);
@@ -330,50 +325,26 @@ function getCardId(card) {
     currentCardSuit = card.charAt(1);
   }
 
-  const amountOfCardsinSuit = 13;
-  let numberOfSuit;
-  const diamonds = 0;
-  const clubs = 1;
-  const hearts = 2;
-  const spades = 3;
+  const amountOfCardsInSuit = 13;
 
-  switch (currentCardNumber) {
-    case 'A':
-      currentCardNumber = 1;
-      break;
-    case 'J':
-      currentCardNumber = 11;
-      break;
-    case 'Q':
-      currentCardNumber = 12;
-      break;
-    case 'K':
-      currentCardNumber = 13;
-      break;
-    default:
-      break;
-  }
+  const cardNumberMap = {
+    A: 1,
+    J: 11,
+    Q: 12,
+    K: 13,
+  };
 
-  switch (currentCardSuit) {
-    case '♣':
-      numberOfSuit = diamonds;
-      break;
-    case '♦':
-      numberOfSuit = clubs;
-      break;
-    case '♥':
-      numberOfSuit = hearts;
-      break;
-    case '♠':
-      numberOfSuit = spades;
-      break;
-    default:
-      return -8;
-  }
+  currentCardNumber = cardNumberMap[currentCardNumber] || currentCardNumber;
 
-  const resualt = numberOfSuit * amountOfCardsinSuit + (currentCardNumber - 1);
+  const cardSuitMap = {
+    '♣': 0,
+    '♦': 1,
+    '♥': 2,
+    '♠': 3,
+  };
 
-  return resualt;
+  currentCardSuit = cardSuitMap[currentCardSuit];
+  return currentCardSuit * amountOfCardsInSuit + (currentCardNumber - 1);
 
   // throw new Error('Not implemented')
 }
