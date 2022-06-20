@@ -214,7 +214,8 @@ function roundToPowerOfTen(num, pow) {
  */
 function isPrime(n) {
   if (n < 3) return n > 1;
-  for (let i = 2; i < n; i += 1) {
+  // т.к. число полюбому не делится на число, большее чем его половина
+  for (let i = 2; i <= n / 2; i += 1) {
     if (n % i === 0) {
       return false;
     }
